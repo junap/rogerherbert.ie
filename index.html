@@ -30,12 +30,17 @@
 			
 			article .panel { position: relative; display: block; min-height: 5em; margin-top: 1em; border: 0.25em solid #fff; border-radius: 0.25em; box-shadow: 0 0.25em 0.5em rgba(0,0,0,0.1); background-color: #fff;}
 			
+			.panel ul, .panel ol { list-style: none;}
+			
 			.panel .arrow { position: absolute; width: 0; height: 0; top: -2em; left: 5%; border: 1em solid transparent; border-bottom-color: #fff; }
 			
-			[data-type="list"] .panel li { line-height: 1.3333; border-bottom: 1px solid #ddd; padding: 0.5em 0.5em 0.5em 2em;}
-			[data-type="list"] .panel li h3 {font-size: 87.5%; color: #999; }
-			[data-type="list"] .panel li p {font-size: 75%; color: #999; }
+			.panel.list li { line-height: 1.3333; border-bottom: 1px solid #ddd; padding: 0.5em 0.5em 0.5em 2em;}
+			.panel.list li h3 {font-size: 87.5%; color: #999; }
+			.panel.list li p {font-size: 75%; color: #999; }
 			
+			.panel.grid li { display:inline-block; width: 50%; padding: 5% 5% 0;}
+			.panel.grid li img { display: block; width: 100%;}
+
 			[data-service="github"] .panel li { background: url('icon-repo.png') no-repeat 0.5em 0.75em;}
 			[data-service="github"] .panel li.fork { background-image: url('icon-repo-forked.png');}
 		}
@@ -76,7 +81,7 @@
 							var query = $(this).attr('data-query');
 
 							panel = $('<div/>')
-							  .addClass('panel')
+							  .addClass('panel ' + type)
 							  .append('<div class="arrow"/>')
 							  .appendTo($(this));
 
@@ -142,7 +147,7 @@
 					init: function(user, element)
 					{
 						$.getScript('https://platform.twitter.com/widgets.js');
-						$(element).append('<a class="twitter-timeline" data-dnt="true" href="https://twitter.com/' + user + '" data-widget-id="318009668242898944" data-chrome="nofooter noborders">Tweets by @' + user + '</a>');
+						$(element).append('<a class="twitter-timeline" data-dnt="true" href="https://twitter.com/' + user + '" data-widget-id="318009668242898944" data-height="600" data-chrome="nofooter noborders">Tweets by @' + user + '</a>');
 					}
 				};
 
@@ -167,10 +172,20 @@
 
 				var podcasts =
 				{
-					init: function(user, element)
+					init: function(id_str, element)
 					{
-						list = $(element).siblings('ul');
-						$(element).append(list);
+						$.getJSON('https://itunes.apple.com/lookup?callback=?&country=IE&id=' + id_str).done(function(data)
+						{
+							var channels = [];
+
+							$.each(data.results, function(key, item) 
+							{
+								channels.push('<li><a href="'+ item.collectionViewUrl +'" title="'+ item.collectionName +'"><img src="'+ item.artworkUrl100 +'" alt="'+ item.collectionName +'" /></a></li>');
+							});
+							
+							$(element).siblings('ul').remove();
+							$(element).append($('<ul/>').html(channels.join('')));
+						});
 					}
 				};
 
@@ -206,7 +221,7 @@
 				I work in web development and put code on <a href="https://github.com/junap" rel="me">Github</a>.
 			</div>
 
-			<div data-service="podcasts" data-type="grid">
+			<div data-service="podcasts" data-query="471418144,617416468,432550963,528458508" data-type="grid">
 				I listen to a few podcasts.
 				<ul>
 					<li><a href="https://itunes.apple.com/gb/podcast/roderick-on-the-line/id471418144">Roderick On The Line</a></li>
