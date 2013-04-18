@@ -1,10 +1,233 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="utf8">
-		<title>Roger Herbert</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<title>Roger Herbert makes things on the web</title>
+
+		<style type="text/css" media="screen">
+
+		* { margin:0; padding:0; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
+
+		html { -webkit-text-size-adjust:100%; }
+
+		body { color: #333; background: #fff url('ricepaper2.png') repeat top center; font-family: sans-serif; font-size: 100%; font-weight: bold; line-height: 1.5; padding: 2em; }
+
+		h1 { font-size: 150%; margin-bottom: 0;}
+		
+		a { color: #090; }
+		
+		article > div { margin-bottom: 1em; }
+		
+		article .panel { display: none; font-weight: normal;}
+		
+		@media screen and (min-width: 768px) {
+
+			article { -webkit-column-count: 2; }
+
+			article > div { -webkit-column-break-inside: avoid; }
+			
+			article .panel { position: relative; display: block; min-height: 5em; margin-top: 1em; border: 0.25em solid #fff; border-radius: 0.25em; box-shadow: 0 0.25em 0.5em rgba(0,0,0,0.1); background-color: #fff;}
+			
+			.panel .arrow { position: absolute; width: 0; height: 0; top: -2em; left: 5%; border: 1em solid transparent; border-bottom-color: #fff; }
+			
+			[data-type="list"] .panel li { line-height: 1.3333; border-bottom: 1px solid #ddd; padding: 0.5em 0.5em 0.5em 2em;}
+			[data-type="list"] .panel li h3 {font-size: 87.5%; color: #999; }
+			[data-type="list"] .panel li p {font-size: 75%; color: #999; }
+			
+			[data-service="github"] .panel li { background: url('icon-repo.png') no-repeat 0.5em 0.75em;}
+			[data-service="github"] .panel li.fork { background-image: url('icon-repo-forked.png');}
+		}
+		
+		@media screen and (min-width: 1024px) {
+			
+			article { -webkit-column-count: 3; }
+		}
+
+		@media screen and (min-width: 1280px) {
+			
+			article { -webkit-column-count: 4; }
+		}
+
+		</style>
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		
+		<script>
+			$(document).ready(function() 
+			{
+				var site =
+				{
+					init: function()
+					{
+						if (window.innerWidth > 767)
+						{
+							site.loadPanels();
+						};
+					},
+
+					loadPanels: function()
+					{
+						$('article > div').each(function()
+						{
+							var type = $(this).attr('data-type');
+							var service = $(this).attr('data-service');
+							var query = $(this).attr('data-query');
+
+							panel = $('<div/>')
+							  .addClass('panel')
+							  .append('<div class="arrow"/>')
+							  .appendTo($(this));
+
+							api.init(service, query, panel);
+						});
+					}
+				};
+
+				var api = 
+				{
+					init: function(service, query, element)
+					{
+						switch(service)
+						{
+							case 'avatar':
+								avatar.init(query, element);
+								break;
+						
+							case 'googlemaps':
+								googlemaps.init(query, element);
+								break;
+							
+							case 'twitter':
+								twitter.init(query, element);
+								break;
+							
+							case 'github':
+								github.init(query, element);
+								break;
+								
+							case 'podcasts':
+								podcasts.init(query, element);
+								break;
+								
+							case 'books':
+								books.init(query, element);
+								break;
+							
+							default:
+								break;
+						}
+					}
+				};
+
+				var avatar =
+				{
+					init: function(img_url, element)
+					{
+						$(element).append('<div style="background-image: url(avatar.jpg); background-size: cover; height: 300px;" class="stuff"></div>');
+					}
+				};
+
+				var googlemaps = 
+				{
+					init: function(query, element)
+					{
+						$(element).append('<div style="background-image: url(https://maps.googleapis.com/maps/api/staticmap?sensor=false&size=600x600&zoom=5&maptype=terrain&markers=' + encodeURIComponent(query) + '); background-size: cover; height: 300px;" class="stuff"></div>');
+					}
+				};
+
+				var twitter =
+				{
+					init: function(user, element)
+					{
+						$.getScript('https://platform.twitter.com/widgets.js');
+						$(element).append('<a class="twitter-timeline" data-dnt="true" href="https://twitter.com/' + user + '" data-widget-id="318009668242898944" data-chrome="nofooter noborders">Tweets by @' + user + '</a>');
+					}
+				};
+
+				var github =
+				{
+					init: function(user, element)
+					{
+						$.getJSON('https://api.github.com/users/' + user + '/repos').done(function(data) 
+						{
+							var repos = [];
+
+							$.each(data, function(key, item) 
+							{
+								var li_class = (item.fork) ? ' class="fork"' : '';
+								repos.push('<li'+ li_class +'><h3><a href="'+ item.html_url +'">'+ item.name +'</a></h3><p>'+ item.description +'</p></li>');
+							});
+							
+							$(element).append($('<ul/>').html(repos.join('')));
+						});
+					}
+				};
+
+				var podcasts =
+				{
+					init: function(user, element)
+					{
+						list = $(element).siblings('ul');
+						$(element).append(list);
+					}
+				};
+
+				var books =
+				{
+					init: function(user, element)
+					{
+						list = $(element).siblings('ul');
+						$(element).append(list);
+					}
+				};
+
+				site.init();
+			});
+		</script>
 	</head>
 	<body>
-		<h1>Hello World!</h1>
+		<article>
+			
+			<div data-service="avatar" data-type="image">
+				<h1>Hi, I'm Roger.</h1>
+			</div>
+
+			<div data-service="googlemaps" data-query="Belfast, Northern Ireland" data-type="image">
+				I live in <a href="http://en.wikipedia.org/wiki/Belfast">Belfast</a>, Northern Ireland.
+			</div>
+
+			<div data-service="twitter" data-query="junap" data-type="embed">
+				I post nonsense on <a href="https://twitter.com/Junap" rel="me">Twitter</a>.
+			</div>
+
+			<div data-service="github" data-query="junap" data-type="list">
+				I work in web development and put code on <a href="https://github.com/junap" rel="me">Github</a>.
+			</div>
+
+			<div data-service="podcasts" data-type="grid">
+				I listen to a few podcasts.
+				<ul>
+					<li><a href="https://itunes.apple.com/gb/podcast/roderick-on-the-line/id471418144">Roderick On The Line</a></li>
+					<li><a href="https://itunes.apple.com/gb/podcast/accidental-tech-podcast/id617416468">Accidental Tech Podcast</a></li>
+					<li><a href="https://itunes.apple.com/gb/podcast/lets-make-mistakes/id432550963">Let's Make Mistakes</a></li>
+					<li><a href="https://itunes.apple.com/gb/podcast/the-talk-show-with-john-gruber/id528458508">The Talk Show With John Gruber</a></li>
+				</ul>
+			</div>
+			
+			<div data-service="books" data-type="list">
+				Some books I enjoyed.
+				<ul>
+					<li>Rework</li>
+					<li>Design Is A Job</li>
+					<li>A Short History Of Nearly Everything</li>
+				</ul>
+			</div>
+		</article>
+
+		<footer>
+			
+		</footer>
 	</body>
 </html>
