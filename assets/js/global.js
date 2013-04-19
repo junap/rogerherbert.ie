@@ -83,7 +83,7 @@ var twitter =
 	init: function(user, element)
 	{
 		$.getScript('https://platform.twitter.com/widgets.js');
-		$(element).append('<a class="twitter-timeline" data-dnt="true" href="https://twitter.com/' + user + '" data-widget-id="318009668242898944" data-height="600" data-chrome="nofooter noborders">Tweets by @' + user + '</a>');
+		$(element).append('<a class="twitter-timeline" data-dnt="true" href="https://twitter.com/' + user + '" data-widget-id="318009668242898944" height="600" data-chrome="nofooter noborders">Tweets by @' + user + '</a>');
 	}
 };
 
