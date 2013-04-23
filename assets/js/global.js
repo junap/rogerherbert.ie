@@ -48,6 +48,10 @@ var api =
 				github.init(query, element);
 				break;
 				
+			case 'flickr':
+				flickr.init(query, element);
+				break;
+			
 			case 'podcasts':
 				podcasts.init(query, element);
 				break;
@@ -105,6 +109,38 @@ var github =
 		});
 	}
 };
+
+var flickr =
+{
+	el: '',
+	
+	init: function(user, element)
+	{
+		flickr.el = element;
+
+		$.getJSON('https://secure.flickr.com/services/rest?method=flickr.people.getPublicPhotos&api_key=50628aef1745267f88d482440adec467&user_id=95146274@N02&extras=url_q&format=json&callback=?&jsoncallback=flickr.parse');
+	},
+	
+	parse: function(data)
+	{
+		var feed = data.photos.photo;
+
+		var randId = [];
+		randId[0] = Math.floor(Math.random() * feed.length);
+		randId[1] = Math.floor(Math.random() * feed.length);
+		randId[2] = Math.floor(Math.random() * feed.length);
+		randId[3] = Math.floor(Math.random() * feed.length);
+		
+		var images = [];
+		
+		$.each(randId, function(key, imageId) 
+		{
+			images.push('<li><a href="http://www.flickr.com/photos/'+ feed[imageId].owner +'/'+ feed[imageId].id +'" title="'+ feed[imageId].title +'"><img src="'+ feed[imageId].url_q +'" alt="'+ feed[imageId].title +'" /></a></li>');
+		});
+		
+		$(flickr.el).append($('<ul/>').html(images.join('')));
+	}
+}
 
 var podcasts =
 {

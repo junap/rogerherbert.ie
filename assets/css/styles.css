@@ -44,6 +44,7 @@ article .panel { display: none; font-weight: normal;}
 	.panel .arrow { position: absolute; width: 0; height: 0; top: -2em; left: 5%; border: 1em solid transparent; border-bottom-color: #fff; }
 	
 	.panel.list li { line-height: 1.3333; border-bottom: 1px solid #ddd; padding: 0.5em 0.5em 0.5em 2em;}
+	.panel.list li:last-child { border-bottom: none;}
 	.panel.list li h3 {font-size: 87.5%; color: #999; }
 	.panel.list li p {font-size: 75%; color: #999; }
 
@@ -52,6 +53,9 @@ article .panel { display: none; font-weight: normal;}
 
 	[data-service="podcasts"] .panel.list li { background: no-repeat 0.5em 0.75em; background-size: 30px; padding-left: 3em;}
 
+	.panel.grid { overflow: hidden;}
+	.panel.grid li { width: 50%; float: left; }
+	.panel.grid img { display: block; width: 100%; border: 0.25em solid #fff; }
 }
 
 @media screen and (min-width: 1024px) {
