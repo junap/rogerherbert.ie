@@ -1,7 +1,7 @@
 @textColor: #333;
 @linkColor: white;
 
-html, body, #wrapper {
+html, body {
     height: 100%;
 }
 
@@ -11,9 +11,6 @@ body {
     color: @textColor;
     background-color: #f9f9f9;
     text-align: center;
-    background-image: url('../images/berlin.jpg');
-    background-size: cover;
-    background-position: top center;
 }
 
 a {
@@ -21,10 +18,13 @@ a {
     text-decoration: underline;
 }
 
-.h-card {
-    position: relative;
-    top: 50%;
-    transform: translateY(-66.6667%);
+#wrapper {
+    height: 100%;
+    min-height: 33.33em;
+    padding-top: 2em;
+    background-image: url('../images/berlin.jpg');
+    background-size: cover;
+    background-position: top center;
 }
 
 #name {
