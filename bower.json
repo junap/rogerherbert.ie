@@ -1,0 +1,20 @@
+{
+  "name": "rogerherbert.ie",
+  "version": "2.0.0",
+  "description": "A website with my name on it.",
+  "homepage": "http://rogerherbert.ie",
+  "authors": [
+    "Roger Herbert <rogerlherbert@gmail.com>"
+  ],
+  "main": "index.html",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "normalize.css": "~3.0.3"
+  }
+}

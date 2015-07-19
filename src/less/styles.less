@@ -1,0 +1,66 @@
+@textColor: #333;
+@linkColor: white;
+
+html, body, #wrapper {
+    height: 100%;
+}
+
+body {
+    font-size: 24px;
+    font-family: "Montserrat", sans-serif;
+    color: @textColor;
+    background-color: #f9f9f9;
+    text-align: center;
+    background-image: url('../images/berlin.jpg');
+    background-size: cover;
+    background-position: top center;
+}
+
+a {
+    color: @linkColor;
+    text-decoration: underline;
+}
+
+.h-card {
+    position: relative;
+    top: 50%;
+    transform: translateY(-66.6667%);
+}
+
+#name {
+    font-size: 1.5em;
+    margin: 0;
+    padding-bottom: 2em;
+
+    span {
+        display: inline-block;
+        border: 0.175em solid @linkColor;
+        padding: 0.3em 0.5em;
+    }
+
+    a {
+        text-decoration: none;
+    }
+}
+
+#roles {
+    padding-bottom: 2em;
+
+    .role {
+        display: block;
+    }
+}
+
+#where {
+    padding-bottom: 2em;
+
+    .location {
+        display: block;
+    }
+}
+
+#contact {
+    .channel {
+        display: block;
+    }
+}
